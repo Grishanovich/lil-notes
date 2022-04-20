@@ -1,0 +1,13 @@
+.app-header {
+    color          : #ffffff;
+    justify-content: space-between;
+}
+
+h1 {
+    font-size: 27px;
+}
+
+h2 {
+    font-size: 20px;
+
+}

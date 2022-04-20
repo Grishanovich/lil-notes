@@ -1,0 +1,13 @@
+.btn-group {
+    margin-left: 5px;
+}
+
+.btn-primary {
+    background-color: rgb(58, 153, 236);
+    border          : none;
+}
+
+.btn-primary:hover {
+    background-color: rgb(32, 137, 229);
+    border          : rgb(32, 137, 229);
+}
