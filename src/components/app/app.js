@@ -13,8 +13,9 @@ export default class App extends Component {
             { label: 'Going to learn React', important: false, like: true, id: '1' },
             { label: 'That is so good', important: false, like: false, id: '2' },
             { label: 'I need a break', important: false, like: false, id: '3' }
-        ]
-
+        ],
+        term: '',
+        filter: 'all'
     };
 
     max = 4;
@@ -78,12 +79,41 @@ export default class App extends Component {
         })
     }
 
+    searchPost(items, term) {
+        if (term.length === 0) {
+            return items
+        }
+        return items.filter((item) => {
+            return item.label.toLowerCase().indexOf(term) > -1
+        })
+    }
+
+    filterPost(items, filter) {
+        if (filter === 'like') {
+            return items.filter(item => item.like)
+        } else {
+            return items
+        }
+    }
+
+    onUpdateSearch = (term) => {
+        this.setState({ term })
+    }
+
+    onFilterSelect = (filter) => {
+        this.setState({
+            filter
+        })
+    }
+
     render() {
 
-        const { data } = this.state
+        const { data, term, filter } = this.state
 
         const liked = data.filter(item => item.like).length
         const allPosts = data.length
+
+        const visiblePosts = this.filterPost(this.searchPost(data, term), filter)
 
         return (
             <div className="app">
@@ -92,13 +122,17 @@ export default class App extends Component {
                 </Container>
                 <Container>
                     <div className="search-panel d-flex">
-                        <SearchPanel />
-                        <PostStatusFilter />
+                        <SearchPanel
+                            onUpdateSearch={this.onUpdateSearch} />
+                        <PostStatusFilter
+                            filter={filter}
+                            onFilterSelect={this.onFilterSelect}
+                        />
                     </div>
                 </Container >
                 <Container>
                     <PostList
-                        posts={this.state.data}
+                        posts={visiblePosts}
                         onDelete={this.deletedItem}
                         onToggleImportant={this.onToggleImportant}
                         onToggleLiked={this.onToggleLiked}
